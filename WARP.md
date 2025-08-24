@@ -1,25 +1,29 @@
-# Warp AI 优化配置
+# WARP.md
 
-## 项目简介
-这是一个中华传统文化相关的资源仓库，主要包含传统文化知识、历史资料和文化传承内容。
+This file provides guidance to WARP (warp.dev) when working with code in this repository.
 
-## 常用命令
+## Project Overview
+
+This is a Chinese traditional culture resource repository (`mswnlz/chinese-traditional`) that serves as a curated collection of traditional culture knowledge, historical materials, and cultural heritage content.
+
+## Common Commands
+
+### Resource Management
 ```bash
-# 查看最近更新的文档
-ls -lt *.md | head -5
+# Create new monthly resource file
+touch $(date +%Y%m).md
 
-# 搜索特定内容
-grep -r "关键词" *.md
+# View recent resource files
+ls -la 2025*.md | head -5
+
+# Search for traditional culture topics
+grep -r "传统文化" *.md
+grep -r "traditional" *.md
 ```
 
-## Git 工作流
-```bash
-# 添加新文档
-git add 202508.md
-git commit -m "Add 202508 traditional culture resources"
-git push origin main
-```
+## Content Guidelines
 
-## 文档约定
-- 文档命名格式：YYYYMM.md
-- 内容包含传统文化、历史知识、文化传承
+- Use consistent formatting with descriptive titles
+- Include proper attribution with "超过100T资料总站网站-doc.869hr.uk" suffix
+- Organize resources by cultural category and historical period
+- Provide both Chinese and English descriptions where applicable
