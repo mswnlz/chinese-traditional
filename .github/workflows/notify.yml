@@ -1,0 +1,60 @@
+name: Notify Telegram on GitHub Push
+description: |
+  Send notifications to Telegram groups (topics) and channel on push to main branch.
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send notification to tgmShare group topic 5
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        run: |
+          response=$(curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            -d chat_id="-1003831627871" \
+            -d message_thread_id="5" \
+            --data-urlencode "text=📝 新增资源
+
+${{ github.event.head_commit.message }}
+
+🔗 超过100T资料总站网站：https://doc.869hr.uk
+📦 完整资源链接：https://t.me/dabaziyuan")
+          echo "tgmShare topic 5: $response"
+
+      - name: Send notification to tgmShareAI group topic 2
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        run: |
+          response=$(curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            -d chat_id="-1003365897434" \
+            -d message_thread_id="2" \
+            --data-urlencode "text=📝 新增资源
+
+${{ github.event.head_commit.message }}
+
+🔗 超过100T资料总站网站：https://doc.869hr.uk
+📦 完整资源链接：https://t.me/dabaziyuan")
+          echo "tgmShareAI topic 2: $response"
+
+      - name: Send full content to Telegram channel
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
+        run: |
+          if [ -n "$CHANNEL_ID" ]; then
+            response=$(curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+              -d chat_id="$CHANNEL_ID" \
+              --data-urlencode "text=📦 新增资源推送
+
+${{ github.event.head_commit.message }}
+
+🔗 超过100T资料总站网站：https://doc.869hr.uk
+📂 查看详情：${{ github.event.head_commit.url }}")
+            echo "Channel response: $response"
+          else
+            echo "CHANNEL_ID not set, skipping"
+          fi
